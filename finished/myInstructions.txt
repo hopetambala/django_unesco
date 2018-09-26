@@ -1,0 +1,34 @@
+SQL COMMANDS
+
+USE unesco_heritage_sites;
+
+SELECT reg.region_name,sub.sub_region_name, ca.country_area_name, hs.site_name, hsc.category_name 
+FROM heritage_site hs 
+LEFT JOIN heritage_site_jurisdiction hsj 
+	ON hs.heritage_site_id = hsj.heritage_site_id 
+LEFT JOIN country_area ca 
+	ON hsj.country_area_id = ca.country_area_id 
+LEFT JOIN heritage_site_category hsc 
+	ON hs.heritage_site_category_id = hsc.category_id 
+LEFT JOIN region reg 
+	ON ca.region_id = reg.region_id
+LEFT JOIN sub_region sub 
+	ON ca.sub_region_id = sub.sub_region_id
+WHERE ca.country_area_name LIKE 'China%' 
+ORDER BY hs.site_name;
+
+
+###
+Django Shell COMMANDS
+
+Terminal
+python3 manage.py shell
+
+>>>
+from heritagesites.models import CountryArea, Region, SubRegion, DevStatus, HeritageSite, HeritageSiteCategory, HeritageSiteJurisdiction
+
+hs = HeritageSite.objects.select_related('heritage_site_category').filter(country_area__country_area_name__startswith = 'China').values_list('country_area__region__region_name','country_area__sub_region__sub_region_name','country_area__country_area_name','site_name','heritage_site_category__category_name')
+
+
+for s in hs:
+    print(s[0],s[1],s[2],s[3],s[4])
