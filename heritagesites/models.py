@@ -12,11 +12,19 @@ from django.db import models
 class CountryArea(models.Model):
     country_area_id = models.AutoField(primary_key=True)
     country_area_name = models.CharField(unique=True, max_length=100)
+    '''
     region = models.ForeignKey('Region', models.DO_NOTHING, blank=True, null=True)
     sub_region = models.ForeignKey('SubRegion', models.DO_NOTHING, blank=True, null=True)
     intermediate_region = models.ForeignKey('IntermediateRegion', models.DO_NOTHING, blank=True, null=True)
+    '''
+    
+
     m49_code = models.SmallIntegerField()
     iso_alpha3_code = models.CharField(max_length=3)
+
+    #New Field(s)
+    location = models.ForeignKey('Location', models.DO_NOTHING)
+
     dev_status = models.ForeignKey('DevStatus', models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
@@ -28,24 +36,6 @@ class CountryArea(models.Model):
 
     def __str__(self):
         return self.country_area_name
-
-
-'''   
-class CountryArea(models.Model):
-    country_area_id = models.AutoField(primary_key=True)
-    country_area_name = models.CharField(unique=True, max_length=100)
-    region = models.ForeignKey('Region', models.DO_NOTHING, blank=True, null=True)
-    sub_region = models.ForeignKey('SubRegion', models.DO_NOTHING, blank=True, null=True)
-    intermediate_region = models.ForeignKey('IntermediateRegion', models.DO_NOTHING, blank=True, null=True)
-    m49_code = models.SmallIntegerField()
-    iso_alpha3_code = models.CharField(max_length=3)
-    dev_status = models.ForeignKey('DevStatus', models.DO_NOTHING, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'country_area'
-'''
-
 
 class DevStatus(models.Model):
     dev_status_id = models.AutoField(primary_key=True)
@@ -60,18 +50,6 @@ class DevStatus(models.Model):
 
     def __str__(self):
         return self.dev_status_name
-
-
-'''
-class DevStatus(models.Model):
-    dev_status_id = models.AutoField(primary_key=True)
-    dev_status_name = models.CharField(unique=True, max_length=25)
-
-    class Meta:
-        managed = False
-        db_table = 'dev_status'
-'''
-
 
 class HeritageSite(models.Model):
     heritage_site_id = models.AutoField(primary_key=True)
@@ -105,26 +83,6 @@ class HeritageSite(models.Model):
 
     country_area_display.short_description = 'Country or Area'
 
-
-'''
-class HeritageSite(models.Model):
-    heritage_site_id = models.AutoField(primary_key=True)
-    site_name = models.CharField(unique=True, max_length=255)
-    description = models.TextField()
-    justification = models.TextField(blank=True, null=True)
-    date_inscribed = models.TextField(blank=True, null=True)  # This field type is a guess.
-    longitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True)
-    latitude = models.DecimalField(max_digits=10, decimal_places=8, blank=True, null=True)
-    area_hectares = models.FloatField(blank=True, null=True)
-    heritage_site_category = models.ForeignKey('HeritageSiteCategory', models.DO_NOTHING)
-    transboundary = models.IntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'heritage_site'
-'''
-
-
 class HeritageSiteCategory(models.Model):
     category_id = models.AutoField(primary_key=True)
     category_name = models.CharField(unique=True, max_length=25)
@@ -139,18 +97,6 @@ class HeritageSiteCategory(models.Model):
     def __str__(self):
         return self.category_name
 
-
-'''
-class HeritageSiteCategory(models.Model):
-    category_id = models.AutoField(primary_key=True)
-    category_name = models.CharField(unique=True, max_length=25)
-
-    class Meta:
-        managed = False
-        db_table = 'heritage_site_category'
-'''
-
-
 class HeritageSiteJurisdiction(models.Model):
     heritage_site_jurisdiction_id = models.AutoField(primary_key=True)
     heritage_site = models.ForeignKey(HeritageSite, models.DO_NOTHING)
@@ -162,18 +108,6 @@ class HeritageSiteJurisdiction(models.Model):
         ordering = ['heritage_site', 'country_area']
         verbose_name = 'UNESCO Heritage Site Jurisdiction'
         verbose_name_plural = 'UNESCO Heritage Site Jurisdictions'
-
-
-'''
-class HeritageSiteJurisdiction(models.Model):
-    heritage_site_jurisdiction_id = models.AutoField(primary_key=True)
-    heritage_site = models.ForeignKey(HeritageSite, models.DO_NOTHING)
-    country_area = models.ForeignKey(CountryArea, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'heritage_site_jurisdiction'
-'''
 
 class IntermediateRegion(models.Model):
     intermediate_region_id = models.AutoField(primary_key=True)
@@ -190,22 +124,12 @@ class IntermediateRegion(models.Model):
     def __str__(self):
         return self.intermediate_region_name
 
-
-'''
-class IntermediateRegion(models.Model):
-    intermediate_region_id = models.AutoField(primary_key=True)
-    intermediate_region_name = models.CharField(unique=True, max_length=100)
-    sub_region = models.ForeignKey('SubRegion', models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'intermediate_region'
-'''
-
-
 class Region(models.Model):
     region_id = models.AutoField(primary_key=True)
     region_name = models.CharField(unique=True, max_length=100)
+
+    #New Fields
+    planet = models.ForeignKey('Planet', models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -216,18 +140,6 @@ class Region(models.Model):
 
     def __str__(self):
         return self.region_name
-
-
-'''
-class Region(models.Model):
-    region_id = models.AutoField(primary_key=True)
-    region_name = models.CharField(unique=True, max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'region'
-'''
-
 
 class SubRegion(models.Model):
     sub_region_id = models.AutoField(primary_key=True)
@@ -244,14 +156,42 @@ class SubRegion(models.Model):
     def __str__(self):
         return self.sub_region_name
 
-
-'''
-class SubRegion(models.Model):
-    sub_region_id = models.AutoField(primary_key=True)
-    sub_region_name = models.CharField(unique=True, max_length=100)
-    region = models.ForeignKey(Region, models.DO_NOTHING)
+class Planet(models.Model):
+    planet_id = models.AutoField(primary_key=True)
+    planet_name = models.CharField(unique=True, max_length=50)
+    unsd_name = models.CharField(max_length=50, null=True, blank=True)
 
     class Meta:
         managed = False
-        db_table = 'sub_region'
-'''
+        db_table = 'planet'
+    
+    def __str__(self):
+        return self.planet_name
+    
+class Location(models.Model): 
+    """
+    New model based on Mtg 5 refactoring of the database. 
+    """
+    location_id = models.AutoField(primary_key=True)
+
+    # other fields
+    planet = models.ForeignKey('Planet', models.DO_NOTHING)
+    region = models.ForeignKey('Region', models.DO_NOTHING, blank=True, null=True)
+    sub_region = models.ForeignKey('SubRegion', models.DO_NOTHING, blank=True, null=True)
+    intermediate_region = models.ForeignKey('IntermediateRegion', models.DO_NOTHING, blank=True, null=True)
+
+
+    class Meta:
+        managed = False
+        db_table = 'location'
+        #ordering = ['field 1','field 2']
+        verbose_name = 'UNSD M49 Location Hierarchy' 
+        verbose_name_plural = 'UNSD M49 Location Hierarchies'
+   
+    def __str__(self):
+        return '{} {} {} {}'.format(
+            self.planet if self.planet else '', 
+            self.region if self.region else '', 
+            self.sub_region if self.sub_region else '',
+            self.intermediate_region if self.intermediate_region else '', )
+    
