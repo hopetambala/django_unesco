@@ -1,0 +1,110 @@
+'''
+3.1
+'''
+
+class Planet(models.Model):
+    planet_id = models.AutoField(primary_key=True)
+    planet_name = models.CharField(unique=True, max_length=50)
+    unsd_name = models.CharField(max_length=50, null=True, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'planet'
+    
+    def __str__(self):
+        return self.planet_name
+    
+class Location(models.Model): 
+    """
+    New model based on Mtg 5 refactoring of the database. 
+    """
+    location_id = models.AutoField(primary_key=True)
+
+    # other fields
+    planet = models.ForeignKey('Planet', models.DO_NOTHING)
+    region = models.ForeignKey('Region', models.DO_NOTHING, blank=True, null=True)
+    sub_region = models.ForeignKey('SubRegion', models.DO_NOTHING, blank=True, null=True)
+    intermediate_region = models.ForeignKey('IntermediateRegion', models.DO_NOTHING, blank=True, null=True)
+
+
+    class Meta:
+        managed = False
+        db_table = 'location'
+        #ordering = ['field 1','field 2']
+        verbose_name = 'UNSD M49 Location Hierarchy' 
+        verbose_name_plural = 'UNSD M49 Location Hierarchies'
+   
+    def __str__(self):
+        return '{} {} {} {}'.format(
+            self.planet if self.planet else '', 
+            self.region if self.region else '', 
+            self.sub_region if self.sub_region else '',
+            self.intermediate_region if self.intermediate_region else '', )
+class CountryArea(models.Model):
+    country_area_id = models.AutoField(primary_key=True)
+    country_area_name = models.CharField(unique=True, max_length=100)
+    '''
+    region = models.ForeignKey('Region', models.DO_NOTHING, blank=True, null=True)
+    sub_region = models.ForeignKey('SubRegion', models.DO_NOTHING, blank=True, null=True)
+    intermediate_region = models.ForeignKey('IntermediateRegion', models.DO_NOTHING, blank=True, null=True)
+    '''
+    
+
+    m49_code = models.SmallIntegerField()
+    iso_alpha3_code = models.CharField(max_length=3)
+
+    #New Field(s)
+    location = models.ForeignKey('Location', models.DO_NOTHING)
+
+    dev_status = models.ForeignKey('DevStatus', models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'country_area'
+        ordering = ['country_area_name']
+        verbose_name = 'UNSD M49 Country or Area'
+        verbose_name_plural = 'UNSD M49 Countries or Areas'
+
+    def __str__(self):
+        return self.country_area_name
+
+'''
+3.2
+'''
+SELECT r.region_name AS `region`, sr.sub_region_name AS `subregion`, 
+    ca.country_area_name AS `country / area`,
+    hs.site_name AS `heritage site`, hs.area_hectares AS `area (hectares)`
+FROM heritage_site hs
+    LEFT JOIN heritage_site_jurisdiction hsj
+        ON hs.heritage_site_id = hsj.heritage_site_id 
+    LEFT JOIN country_area ca
+        ON hsj.country_area_id = ca.country_area_id 
+    LEFT JOIN location l
+        ON ca.location_id = l.location_id 
+    LEFT JOIN region r
+        ON l.region_id = r.region_id 
+    LEFT JOIN sub_region sr
+        ON l.sub_region_id = sr.sub_region_id
+WHERE r.region_name LIKE 'Africa%'
+ORDER BY hs.area_hectares DESC
+LIMIT 1\G
+
+*************************** 1. row ***************************
+         region: Africa
+      subregion: Sub-Saharan Africa
+ country / area: Niger
+  heritage site: Air and Ténéré Natural Reserves
+area (hectares): 7736000
+
+'''
+3.3
+'''
+>>> from heritagesites.models import Location, Region, CountryArea, DevStatus
+>>> from django.db.models import Count
+>>> from django.db.models import F
+
+>>> loc = Location.objects.values(region_name = F('region__region_name'), dev_status = F('countryarea__dev_status__dev_status_name')).annotate(count=Count('countryarea__dev_status__dev_status_name')).filter(region__region_name = 'Asia').order_by('countryarea__dev_status__dev_status_name')
+>>> for l in loc:
+...             print(l)                                                                                                                                                                           ... 
+{'region_name': 'Asia', 'dev_status': 'Developed', 'count': 3}
+{'region_name': 'Asia', 'dev_status': 'Developing', 'count': 47}
