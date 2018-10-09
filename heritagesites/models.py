@@ -194,4 +194,3 @@ class Location(models.Model):
             self.region if self.region else '', 
             self.sub_region if self.sub_region else '',
             self.intermediate_region if self.intermediate_region else '', )
-    
