@@ -1,20 +1,10 @@
-
+{% extends 'heritagesites/base.html' %}
 
 {% block content %}
 
 <!-- safe filter on for raw HTML stored in database -->
 
 <h2>{{site.site_name | safe}}</h2>
-
-
-
-
-
-
-
-
-
-
 
 
 {% if site.description %}
@@ -28,15 +18,16 @@
   </div>
 {% endif %}
 
-
-
-
-
-
-
-
-
-
+{% if site.justification %}
+<div class="row">
+  <div class="col-sm-2">
+    <p>Site Justification</p>
+  </div>
+  <div class="col-sm-10">
+    {{site.justification | safe}}
+  </div>
+</div>
+{% endif %}
 
 {% if site.date_inscribed %}
   <div class="row">
@@ -61,14 +52,40 @@
   </div>
 {% endif %}
 
+{% if site.area_hectares %}
+  <div class="row">
+    <div class="col-sm-2">
+      <p>Site Hectares</p>
+    </div>
+    <div class="col-sm-10">
+      {{site.area_hectares}}
+    </div>
+  </div>
+{% endif %}
+
+{% if site.heritage_site_category %}
+  <div class="row">
+    <div class="col-sm-2">
+      <p>Site Category</p>
+    </div>
+    <div class="col-sm-10">
+      {{site.heritage_site_category}}
+    </div>
+  </div>
+{% endif %}
+<!--
+{% if site.country_area %}
+  <div class="row">
+    <div class="col-sm-2">
+      <p>Country Area</p>
+    </div>
+    <div class="col-sm-10">
+      {{site.country_area.name}}
+    </div>
+  </div>
+{% endif %} -->
 
 
 
 
-
-
-
-
-
-
-{% endblock content %}}
+{% endblock content %}

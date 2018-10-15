@@ -7,6 +7,7 @@ class SiteListView(generic.ListView):
 	def get_queryset(self):
 		return HeritageSite.objects.all().select_related('heritage_site_category').order_by('site_name')
 
+''''''''''''''''''
 
 Template repair work
 base.html: fixed ...
@@ -32,3 +33,30 @@ site.html: fixed ...
     second {
         % extends 'heritagesites/base.html' %}
 site_detail.html: fixed ...
+    {% extends 'heritagesites/base.html' %}
+
+
+''''''''''''''''''
+
+class SiteModelTest(TestCase):
+
+	def setUp(self):
+		HeritageSiteCategory.objects.create(category_name='Cultural')
+		category = HeritageSiteCategory.objects.get(pk=1)
+		HeritageSite.objects.create(
+			site_name='Cultural Landscape and Archaeological Remains of the Bamiyan Valley',
+			heritage_site_category_id=category.category_id,
+			description='The cultural landscape and archaeological remains ...',
+			justification='The Buddha statues and the cave art in Bamiyan Valley are ...',
+			date_inscribed='2003',
+			longitude='67.82525000',
+			latitude='34.84694000',
+			area_hectares='158.9265',
+			transboundary=0)
+
+	def test_site_name(self):
+		site = HeritageSite.objects.get(pk=1)
+		expected_object_name = f'{site.site_name}'
+		self.assertEqual(expected_object_name, 'Cultural Landscape and Archaeological Remains of the Bamiyan Valley')
+
+''''''''''''''''''

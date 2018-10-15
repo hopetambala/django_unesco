@@ -51,7 +51,7 @@ class SiteModelTest(TestCase):
 		HeritageSiteCategory.objects.create(category_name='Cultural')
 		category = HeritageSiteCategory.objects.get(pk=1)
 		HeritageSite.objects.create(
-			site_name='Cultural Landscape and Archaeological Remains …’,
+			site_name='Cultural Landscape and Archaeological Remains of the Bamiyan Valley',
 			heritage_site_category_id=category.category_id,
 			description='The cultural landscape and archaeological remains ...',
 			justification='The Buddha statues and the cave art in Bamiyan Valley are ...',

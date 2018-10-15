@@ -19,7 +19,7 @@ nav {
  */
 
 .navbar-custom {
-    background-color: #8E8D8A;
+    background-color: #8EC274;
 }
 
 /* change the brand and text color */
@@ -38,7 +38,7 @@ nav {
 .navbar-custom .nav-item:focus .nav-link,
 .navbar-custom .nav-item:hover .nav-link {
     color: #EAE7DC;
-    background-color: #E85A4F; /* add background-color to active links */
+    background-color: #92B8A4; /* add background-color to active links */
 }
 
 /*
@@ -55,7 +55,7 @@ nav {
 }
 
 .pagination > li.page-item.active {
-    background-color: #E85A4F;
+    background-color: #92B8A4;
     color: #EAE7DC;
     padding: 0.25rem 0.75rem;
 }
@@ -78,7 +78,7 @@ main {
  */
 
 footer {
-    background-color: #8E8D8A;
+    background-color: #543D33;
     padding: 0.8rem 1rem;
 }
 
@@ -95,7 +95,7 @@ footer a:active {
 
 footer a:hover {
     background-color: transparent;
-    color: #9ACD32;
+    color: #8EC274;
     /* color: #D8C3A5; */
 }
 
@@ -105,7 +105,7 @@ footer a:visited {
 }
 
 footer p {
-    background-color: #8E8D8A;
+    background-color: #543D33;
     display: block;
     text-align: left;
     font-size: 0.875rem;
@@ -118,7 +118,7 @@ footer p {
  */
 
 h1, h2, h3, h4 {
-    color: #E85A4F;
+    color: #543D33;
     /* margin-top: 1em; */
     margin-bottom: 0.5rem;
     text-align: left;
@@ -141,13 +141,13 @@ p {
 
 a:link {
     background-color: transparent;
-    color: #E85A4F;
+    color: #543D33;
     text-decoration: none;
 }
 
 a:hover {
     background-color: transparent;
-    color: #9ACD32;
+    color: #AD9668;
     /* color: #D8C3A5; */
 }
 
