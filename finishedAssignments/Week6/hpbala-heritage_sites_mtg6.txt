@@ -15,7 +15,7 @@ base.html: fixed ...
  
         {% endblock content %}
     second
-        / in second script src
+        {% load static %}
 home.html: fixed ...
     first
         {% extends 'heritagesites/base.html' %}
