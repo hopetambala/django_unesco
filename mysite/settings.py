@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'heritagesites.apps.HeritagesitesConfig',
+    'test_without_migrations',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+# Add a custom test runner for converting unmanaged models to managed before
+# running a test and then revert the effect afterwards.
+
+TEST_RUNNER = 'heritagesites.utils.UnManagedModelTestRunner'

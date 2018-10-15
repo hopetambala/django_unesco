@@ -1,0 +1,34 @@
+class SiteListView(generic.ListView):
+	model = HeritageSite
+	context_object_name = 'sites'
+	template_name = 'heritagesites/site.html'
+	paginate_by = 50
+
+	def get_queryset(self):
+		return HeritageSite.objects.all().select_related('heritage_site_category').order_by('site_name')
+
+
+Template repair work
+base.html: fixed ...
+    first
+        {% block content %}
+ 
+        {% endblock content %}
+    second
+        / in second script src
+home.html: fixed ...
+    first
+        {% extends 'heritagesites/base.html' %}
+    second
+        {% block content %}
+        {% endblock content %}
+about.html: fixed ...
+    nothing
+site.html: fixed ...
+    first
+        {% for site in sites %}
+        
+        {% endfor %}
+    second {
+        % extends 'heritagesites/base.html' %}
+site_detail.html: fixed ...
