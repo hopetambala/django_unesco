@@ -1,4 +1,4 @@
-# Meeting 4 Exercise
+# Django Site for SI664
 
 ## 1.0 Back-end
 
