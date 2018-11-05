@@ -6,4 +6,6 @@ urlpatterns = [
     path('about/', views.AboutPageView.as_view(), name='about'),
     path('sites/', views.SiteListView.as_view(), name='sites'),
     path('sites/<int:pk>/', views.SiteDetailView.as_view(), name='site_detail'),
+    path('countries/', views.CountryListView.as_view(), name='countries'),
+    path('countries/<int:pk>/', views.CountryDetailView.as_view(), name='country_area_detail'),
 ]

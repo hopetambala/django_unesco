@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
 
-from .models import HeritageSite
+from .models import HeritageSite, CountryArea
 
 
 def index(request):
@@ -30,3 +30,17 @@ class SiteDetailView(generic.DetailView):
 	model = HeritageSite
 	context_object_name = 'site'
 	template_name = 'heritagesites/site_detail.html'
+
+class CountryListView(generic.ListView):
+	model = CountryArea	
+	context_object_name = 'countries'
+	template_name = 'heritagesites/country_area.html'
+	paginate_by = 20
+
+	def get_queryset(self):
+		return CountryArea.objects.all().select_related('dev_status').order_by('country_area_name')
+
+class CountryDetailView(generic.DetailView):
+	model = CountryArea
+	context_object_name = 'country'
+	template_name = 'heritagesites/country_area_detail.html'
