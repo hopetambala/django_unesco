@@ -6,5 +6,5 @@
     {% csrf_token %}
     <p>Are you sure you want to delete the Heritage Site "{{ site.site_name }}"?</p>
     <button type="submit" class="btn btn-outline-danger">delete</button>
-    &nbsp;<a class="btn btn-outline-secondary" href="{% url 'site' %}">cancel</a>
+    &nbsp;<a class="btn btn-outline-secondary" href="{% url 'sites' %}">cancel</a>
   </form>
