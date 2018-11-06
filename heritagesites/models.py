@@ -8,6 +8,9 @@
 
 from django.db import models
 
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
 
 class CountryArea(models.Model):
     country_area_id = models.AutoField(primary_key=True)
