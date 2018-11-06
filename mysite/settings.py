@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from .secrets import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +21,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'v2gko*vvk_dfk)^wff!@^%hl=5_k5_2u9n+q+tg&l2-3edkde-'
+#SECRET_KEY = 'v2gko*vvk_dfk)^wff!@^%hl=5_k5_2u9n+q+tg&l2-3edkde-'
+SECRET_KEY = SECURITEE_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -94,7 +96,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'unesco_heritage_sites',
         'USER': 'root',
-        'PASSWORD': 'animal$$911',
+        'PASSWORD': DATABASES_PASSWORD,
         'OPTIONS': {
             'read_default_file': '/etc/mysql/my.cnf',
         },
@@ -158,8 +160,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 TEST_RUNNER = 'heritagesites.utils.UnManagedModelTestRunner'
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '166401922081-a0jgot6756sn82v3rvg39qogjgg2s7r1.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'xwZlfhj1FAxhmHN-DCyYH0Gb'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = SOCIAL_AUTH_KEEEE
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = SOCIAL_AUTH_SECRET
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 LOGIN_URL = '/auth/login/google-oauth2/'
 # LOGIN_URL = 'login'
