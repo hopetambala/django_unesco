@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -63,8 +63,7 @@ class SiteCreateView(generic.View):
 	success_message = "Heritage Site created successfully"
 	template_name = 'heritagesites/site_new.html'
 	# fields = '__all__' <-- superseded by form_class
-	success_url = reverse_lazy('heritagesites/site_list')
-	#success_url = reverse('heritagesites/site_list')
+	# success_url = reverse_lazy('heritagesites/site_list')
 
 	def dispatch(self, *args, **kwargs):
 		return super().dispatch(*args, **kwargs)
