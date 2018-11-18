@@ -4,3 +4,5 @@
 *.pyc
 *.pyc
 mysite/secrets.py
+venv/
+*.pyc
