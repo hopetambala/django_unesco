@@ -43,7 +43,7 @@ class HeritageSiteFilter(django_filters.FilterSet):
     )
 
     intermediate_region = django_filters.ModelChoiceFilter(
-        field_name='region',
+        field_name='country_area__location__intermediate_region__intermediate_region_name',
         label='Intermediate Region',
         queryset=IntermediateRegion.objects.all().order_by('intermediate_region_name'),
         lookup_expr='exact'
