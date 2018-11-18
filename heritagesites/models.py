@@ -11,6 +11,7 @@ from django.db import models
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse
+from django.db.models import F
 
 
 class CountryArea(models.Model):
@@ -187,15 +188,14 @@ class HeritageSite(models.Model):
         # intermediate region names, before returning a comma-delimited string of names using the
         # string join method.
 
-        countries = self.country_area.select_related('location')
+        #Strange case where I had to do something different
+        intermediate_regions = self.country_area.select_related('location').values(name=F('location__intermediate_region__intermediate_region_name'))
 
         names = []
-        for country in countries:
-            name = country.location.intermediate_region.intermediate_region_name
+        for ir in intermediate_regions:
+            name = ir['name']
             if name is None:
                 continue
-            #iso_code = country.iso_alpha3_code
-
             name_and_code = ''.join([name])
             if name_and_code not in names:
                 names.append(name_and_code)

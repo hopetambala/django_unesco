@@ -1,4 +1,4 @@
-from django_filters import *
+import django_filters
 from .models import CountryArea, HeritageSite, HeritageSiteCategory, IntermediateRegion, SubRegion, Region
 
 
@@ -38,7 +38,7 @@ class HeritageSiteFilter(django_filters.FilterSet):
     sub_region = django_filters.ModelChoiceFilter(
         field_name='country_area__location__sub_region__sub_region_name',
         label='SubRegion',
-        queryset=SubRegion.objects.all().select_related('location__sub_region__sub_region_name').order_by('country_area_name'),
+        queryset=SubRegion.objects.all().order_by('sub_region_name'),
         lookup_expr='exact'
     )
 

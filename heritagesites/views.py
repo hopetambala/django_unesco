@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
+from django_filters.views import FilterView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
@@ -8,6 +9,7 @@ from django.urls import reverse_lazy
 
 from .models import HeritageSite, CountryArea, HeritageSiteJurisdiction
 from .forms import HeritageSiteForm
+from .filters import HeritageSiteFilter
 
 
 def index(request):
@@ -33,6 +35,10 @@ class SiteDetailView(generic.DetailView):
 	model = HeritageSite
 	context_object_name = 'site'
 	template_name = 'heritagesites/site_detail.html'
+
+class SiteFilterView(FilterView):
+	filterset_class = HeritageSiteFilter
+	template_name = 'heritagesites/site_filter.html'
 
 @method_decorator(login_required, name='dispatch')
 class CountryListView(generic.ListView):
