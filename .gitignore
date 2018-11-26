@@ -6,3 +6,4 @@
 mysite/secrets.py
 venv/
 *.pyc
+*.pyc
