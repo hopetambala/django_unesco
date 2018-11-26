@@ -43,11 +43,12 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), {'next_page': settings.LOGOUT_REDIRECT_URL},
          name='logout'),
+    path('heritagesites/api/rest-auth/', include('rest_auth.urls')),
+    path('heritagesites/api/rest-auth/registration/', include('rest_auth.registration.urls')),
     path('heritagesites/', include('heritagesites.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+    path('heritagesites/api/', include('api.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
-'''
-    path('admin/', admin.site.urls),
-    path('heritagesites/', include('heritagesites.urls')),
-'''
+# the api-auth route adds log in/log out functionality to the browsable API.
